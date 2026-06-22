@@ -3,7 +3,8 @@
 #include <stddef.h> // size_t
 #include <stdio.h> // printf()
 
-static void print_hex(uint8_t *digest, size_t size)
+
+static void print_hex(const uint8_t *digest, size_t size)
 {
 	size_t i = 0;
 
@@ -13,7 +14,8 @@ static void print_hex(uint8_t *digest, size_t size)
 	}
 }
 
-void print_digest(uint8_t *digest, t_hash_ctx *ctx, t_hash_input *input)
+
+void print_digest(uint8_t *digest, t_hash_ctx *ctx, t_input *input)
 {
 	if (ctx->flags & (1 << FLAG_Q)) {
 		print_hex(digest, ctx->algo->digest_size);

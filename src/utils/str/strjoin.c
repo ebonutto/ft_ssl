@@ -1,5 +1,6 @@
-#include "utils/str.h"
-#include <stdlib.h> // malloc(), NULL
+#include "lib/str.h"
+
+#include <stdlib.h> // NULL, malloc()
 #include <string.h> // memcpy()
 
 

@@ -1,5 +1,6 @@
-#include "utils/str.h"
-#include <stdlib.h>
+#include "lib/str.h"
+
+#include <stdlib.h> // 
 
 
 static size_t count_words(const char *s, char c)
@@ -17,15 +18,14 @@ static size_t count_words(const char *s, char c)
 			in_word = 0;
 		s++;
 	}
-
 	return (count);
 }
 
 
 static char *word_dup(const char *start, size_t len)
 {
-	char	*word;
-	size_t	i;
+	char   *word;
+	size_t i;
 
 	word = malloc(len + 1);
 	if (!word)
@@ -41,7 +41,7 @@ static char *word_dup(const char *start, size_t len)
 }
 
 
-static void	free_all(char **tab, size_t i)
+static void free_all(char **tab, size_t i)
 {
 	while (i > 0)
 		free(tab[--i]);
@@ -49,7 +49,7 @@ static void	free_all(char **tab, size_t i)
 }
 
 
-char **ft_split(const char *s, char c)
+char **split(const char *s, char c)
 {
 	char	**result;
 	size_t	i;

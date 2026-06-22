@@ -1,6 +1,6 @@
 #include "ssl.h"
 
-#include "utils/colors.h"
+#include "lib/colors.h"
 
 #include <stdio.h>   // stderr, fprintf()
 #include <string.h>  // strcmp()

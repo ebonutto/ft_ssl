@@ -1,5 +1,6 @@
-#include "utils/list.h"
-#include <stdlib.h> // free(), NULL
+#include "lib/list.h"
+
+#include <stdlib.h> // free()
 
 
 void list_free(t_list **list)

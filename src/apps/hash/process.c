@@ -5,15 +5,16 @@
 
 #include <stddef.h> // size_t
 #include <stdint.h> // uintX_t
-#include <stdio.h> // BUFSIZ, perror()
+#include <stdio.h> // BUFSIZ, STDIN_FILENO, perror()
 #include <stdlib.h> // free(), malloc()
 #include <string.h> // strlen()
 
+
 static int process_stdin(t_hash_ctx *ctx, uint8_t *digest)
 {
-	ssize_t	     r;
-	t_hash_input input;
-	uint8_t	     buffer[BUFSIZ];
+	ssize_t r;
+	t_input input;
+	uint8_t buffer[BUFSIZ];
 
 	if (ctx->algo->init(ctx->algo_ctx))
 		return (1);
@@ -33,6 +34,7 @@ static int process_stdin(t_hash_ctx *ctx, uint8_t *digest)
 	return (0);
 }
 
+
 static int process_file(t_hash_ctx *ctx, const char *filename)
 {
 	int     fd;
@@ -51,18 +53,17 @@ static int process_file(t_hash_ctx *ctx, const char *filename)
 			goto cleanup;
 		}
 	}
-
 	if (r < 0) {
 		perror("read() failed");
 		ret = 0;
 		goto cleanup;
 	}
-
 	ret = 1;
 cleanup:
 	close(fd);
 	return (ret);
 }
+
 
 static int process_string(t_hash_ctx *ctx, const char *str)
 {
@@ -70,12 +71,12 @@ static int process_string(t_hash_ctx *ctx, const char *str)
 
 	len = strlen(str);
 	if (!ctx->algo->update(ctx->algo_ctx, (const uint8_t *)str, len))
-		return (0);
-
-	return (1);
+		return (1);
+	return (0);
 }
 
-static int process_input_dispatch(t_hash_ctx *ctx, t_hash_input *input)
+
+static int process_input_dispatch(t_hash_ctx *ctx, t_input *input)
 {
 	switch (input->type) {
 		case INPUT_STRING:
@@ -85,10 +86,11 @@ static int process_input_dispatch(t_hash_ctx *ctx, t_hash_input *input)
 	}
 }
 
+
 int process_inputs(t_hash_ctx *ctx)
 {
 	int          ret;
-	t_hash_input *input;
+	t_input *input;
 	t_list       *node;
 	uint8_t      *digest;
 
@@ -105,7 +107,7 @@ int process_inputs(t_hash_ctx *ctx)
 		}
 	}
 	while (node) {
-		input = (t_hash_input *)node->data;
+		input = (t_input *)node->content;
 		if (ctx->algo->init(ctx->algo_ctx) ||
 		    process_input_dispatch(ctx, input) ||
 		    ctx->algo->final(digest, ctx->algo_ctx)) {

@@ -7,8 +7,8 @@
 #include <stdint.h>  // uintX_t
 #include <stddef.h>  // size_t
 
-#include "utils/colors.h"
-#include "utils/list.h"
+#include "lib/colors.h"
+#include "lib/list.h"
 
 #include "crypto/rc4.h"
 

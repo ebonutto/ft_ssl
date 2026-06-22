@@ -6,8 +6,8 @@
  */
 
 #include "types.h"
-#include "utils/colors.h"
-#include "utils/list.h"
+#include "lib/colors.h"
+#include "lib/list.h"
 
 #include "crypto/md5.h"
 #include "crypto/sha256.h"
@@ -60,12 +60,6 @@ typedef struct s_hash_algo {
 } t_hash_algo;
 
 
-typedef struct s_hash_input {
-	t_input_type type;
-	char         *data;
-} t_hash_input;
-
-
 typedef struct s_hash_ctx {
 	const t_hash_algo *algo;
 	void              *algo_ctx;
@@ -115,4 +109,4 @@ int hash_main(int argc, char **argv);
 
 int  parse_inputs(t_hash_ctx *hctx, int argc, char **argv);
 int  process_inputs(t_hash_ctx *hctx);
-void print_digest(uint8_t *digest, t_hash_ctx *ctx, t_hash_input *input);
+void print_digest(uint8_t *digest, t_hash_ctx *ctx, t_input *input);

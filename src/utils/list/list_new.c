@@ -1,17 +1,16 @@
-#include "utils/list.h"
-#include <stdlib.h> // malloc(), NULL
+#include "lib/list.h"
+
+#include <stdlib.h> // NULL, malloc()
 
 
-t_list *list_new(void *data)
+t_list *list_new(void *content)
 {
 	t_list *list;
 
 	list = malloc(sizeof(t_list));
 	if (!list)
 		return (NULL);
-
-	list->data = data;
+	list->content = content;
 	list->next = NULL;
-
 	return (list);
 }

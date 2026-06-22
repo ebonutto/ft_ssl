@@ -1,5 +1,6 @@
-#include "utils/list.h"
-#include <stdlib.h> // free(), NULL
+#include "lib/list.h"
+
+#include <stdlib.h> // free()
 
 
 void list_clear(t_list **list, void (*del)(void *))
@@ -8,11 +9,10 @@ void list_clear(t_list **list, void (*del)(void *))
 
 	if (!list || !del)
 		return ;
-
 	while (*list) {
 		tmp = *list;
 		*list = (*list)->next;
-		del(tmp->data);
+		del(tmp->content);
 		free(tmp);
 	}
 }

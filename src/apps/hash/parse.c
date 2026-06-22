@@ -1,7 +1,7 @@
 #include "hash.h"
 
-#include "utils/colors.h"
-#include "utils/list.h"
+#include "lib/colors.h"
+#include "lib/list.h"
 
 #include <stdio.h> // stderr, fprintf(), perror()
 #include <stdlib.h> // NULL, free(), malloc()
@@ -9,10 +9,10 @@
 
 static int parse_input(t_hash_ctx *ctx, t_input_type type, char *data)
 {
-	t_hash_input *input;
-	t_list       *new;
+	t_input *input;
+	t_list  *new;
 
-	input = malloc(sizeof(t_hash_input));
+	input = malloc(sizeof(t_input));
 	if (!input) {
 		perror("malloc failed");
 		return (1);
@@ -29,12 +29,14 @@ static int parse_input(t_hash_ctx *ctx, t_input_type type, char *data)
 	return (0);
 }
 
+
 static void print_error(const char *format, char **argv, int i)
 {
 	fprintf(stderr, format, argv[0], argv[1], argv[i]);
 	fprintf(stderr, "\n");
 	fprintf(stderr, HASH_HELP_FORMAT, argv[0], argv[1]);
 }
+
 
 static int parse_flag(t_hash_ctx *ctx, int *i, int argc, char **argv)
 {
@@ -66,6 +68,7 @@ static int parse_flag(t_hash_ctx *ctx, int *i, int argc, char **argv)
 	}
 	return (0);
 }
+
 
 int parse_inputs(t_hash_ctx *ctx, int argc, char **argv)
 {
