@@ -1,4 +1,4 @@
-// #include "hash/hash.h"
+// #include "hash.h"
 
 // #include "utils/colors.h"
 // #include "utils/list.h"

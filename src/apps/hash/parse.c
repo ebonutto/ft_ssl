@@ -1,33 +1,13 @@
-#include "hash/hash.h"
+#include "hash.h"
 
 #include "utils/colors.h"
 #include "utils/list.h"
 
-#include <stdlib.h>  // malloc(), free(), NULL
-#include <stdio.h>   // perror(), fprintf(), stderr
-#include <string.h>  // strcmp()
+#include <stdio.h> // stderr, fprintf(), perror()
+#include <stdlib.h> // NULL, free(), malloc()
+#include <string.h> // strcmp()
 
-
-/*
- * Macros
- */
-
-#define HASH_INVALID_OPTION_FORMAT \
-RED \
-"%s %s: Error: invalid option '%s'\n" \
-RST
-
-#define HASH_EXPECTING_ARGUMENT_AFTER_FLAG_FORMAT \
-RED \
-"%s %s: Error: expecting argument after '%s'\n" \
-RST
-
-
-/*
- * Functions
- */
-
-static int add_input(t_hash_ctx *ctx, const e_hash_input_type type, char *data)
+static int parse_input(t_hash_ctx *ctx, t_input_type type, char *data)
 {
 	t_hash_input *input;
 	t_list       *new;
@@ -35,24 +15,19 @@ static int add_input(t_hash_ctx *ctx, const e_hash_input_type type, char *data)
 	input = malloc(sizeof(t_hash_input));
 	if (!input) {
 		perror("malloc failed");
-		return (0);
+		return (1);
 	}
-
 	input->type = type;
 	input->data = data;
-
 	new = list_new(input);
 	if (!new) {
 		perror("list_new() failed");
 		free(input);
-		return (0);
+		return (1);
 	}
-
 	list_push_back(&ctx->inputs, new);
-
-	return (1);
+	return (0);
 }
-
 
 static void print_error(const char *format, char **argv, int i)
 {
@@ -61,19 +36,18 @@ static void print_error(const char *format, char **argv, int i)
 	fprintf(stderr, HASH_HELP_FORMAT, argv[0], argv[1]);
 }
 
-
 static int parse_flag(t_hash_ctx *ctx, int *i, int argc, char **argv)
 {
 	if (strcmp("-h", argv[*i]) == 0 ||
-	    strcmp("--help", argv[*i]) == 0) {
+	    strcmp("--help", argv[*i]) == 0)
 		ctx->flags |= 1 << FLAG_H;
-	} else if ((strcmp("-p", argv[*i]) == 0) ||
-	           (strcmp("--append", argv[*i]) == 0)) {
+	else if ((strcmp("-p", argv[*i]) == 0) ||
+	           (strcmp("--append", argv[*i]) == 0))
 		ctx->flags |= 1 << FLAG_P;
-	} else if ((strcmp("-q", argv[*i]) == 0) ||
-	           (strcmp("--quiet", argv[*i]) == 0)) {
+	else if ((strcmp("-q", argv[*i]) == 0) ||
+	           (strcmp("--quiet", argv[*i]) == 0))
 		ctx->flags |= 1 << FLAG_Q;
-	} else if ((strcmp("-r", argv[*i]) == 0) ||
+	else if ((strcmp("-r", argv[*i]) == 0) ||
 	           (strcmp("--reverse", argv[*i]) == 0)) {
 		ctx->flags |= 1 << FLAG_R;
 	} else if ((strcmp("-s", argv[*i]) == 0) ||
@@ -81,34 +55,31 @@ static int parse_flag(t_hash_ctx *ctx, int *i, int argc, char **argv)
 		if (*i + 1 >= argc) {
 			print_error(HASH_EXPECTING_ARGUMENT_AFTER_FLAG_FORMAT,
 			            argv, *i);
-			return (0);
+			return (2);
 		}
 		*i += 1;
-		if (!add_input(ctx, HASH_INPUT_STRING, argv[*i]))
-			return (0);
+		if (parse_input(ctx, INPUT_STRING, argv[*i]))
+			return (1);
 	} else {
 		print_error(HASH_INVALID_OPTION_FORMAT, argv, *i);
-		return (0);
+		return (2);
 	}
-
-	return (1);
+	return (0);
 }
-
 
 int parse_inputs(t_hash_ctx *ctx, int argc, char **argv)
 {
 	int i = 2;
+	int ret;
 
 	while (i < argc) {
-		if (argv[i][0] == '-') {
-			if (!parse_flag(ctx, &i, argc, argv))
-				return (0);
-		} else {
-			if (!add_input(ctx, HASH_INPUT_FILE, argv[i]))
-				return (0);
-		}
-		i += 1;
+		if (argv[i][0] == '-')
+			ret = parse_flag(ctx, &i, argc, argv);
+		else
+			ret = parse_input(ctx, INPUT_FILE, argv[i]);
+		if (ret)
+			return (ret);
+		i++;
 	}
-
-	return (1);
+	return (0);
 }

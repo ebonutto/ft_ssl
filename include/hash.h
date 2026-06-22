@@ -5,16 +5,16 @@
  * Includes
  */
 
-#include <stdint.h>  // uintX_t
-#include <stddef.h>  // size_t
-
+#include "types.h"
 #include "utils/colors.h"
 #include "utils/list.h"
 
-#include "hash/md5.h"
-#include "hash/sha256.h"
-#include "hash/whirlpool.h"
+#include "crypto/md5.h"
+#include "crypto/sha256.h"
+#include "crypto/whirlpool.h"
 
+#include <stdint.h> // uintX_t
+#include <stddef.h> // size_t
 
 /*
  * Macros
@@ -35,16 +35,15 @@ BOLD CYN "\nFlags:\n" RST \
 "  -s, --string [str]  Compute digest of the given string\n" \
 "\n"
 
+#define HASH_INVALID_OPTION_FORMAT \
+RED \
+"%s %s: Error: invalid option '%s'\n" \
+RST
 
-/*
- * Enums
- */
-
-typedef enum e_hash_input_type {
-	HASH_INPUT_STDIN,
-	HASH_INPUT_STRING,
-	HASH_INPUT_FILE
-} e_hash_input_type;
+#define HASH_EXPECTING_ARGUMENT_AFTER_FLAG_FORMAT \
+RED \
+"%s %s: Error: expecting argument after '%s'\n" \
+RST
 
 
 /*
@@ -62,9 +61,9 @@ typedef struct s_hash_algo {
 
 
 typedef struct s_hash_input {
-	e_hash_input_type type;
-	char              *data;
-}   t_hash_input;
+	t_input_type type;
+	char         *data;
+} t_hash_input;
 
 
 typedef struct s_hash_ctx {

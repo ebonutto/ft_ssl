@@ -10,7 +10,7 @@
 #include "utils/colors.h"
 #include "utils/list.h"
 
-#include "cipher/rc4.h"
+#include "crypto/rc4.h"
 
 
 /*

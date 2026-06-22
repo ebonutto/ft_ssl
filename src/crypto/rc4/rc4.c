@@ -1,4 +1,4 @@
-#include "cipher/rc4.h"
+#include "crypto/rc4.h"
 
 #include <stdint.h>  // uintX_t
 #include <stddef.h>  // size_t

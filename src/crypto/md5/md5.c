@@ -1,7 +1,15 @@
-#include "hash/md5.h"
+/*
+ * md5.c
+ */
 
-#include <stdint.h>  // uintX_t
-#include <stddef.h>  // size_t
+/*
+ * Includes
+ */
+
+#include "crypto/md5.h"
+
+#include <stddef.h> // size_t
+#include <stdint.h> // uintX_t
 
 
 /*
@@ -58,11 +66,9 @@ int md5_init(t_md5_ctx *ctx)
 	ctx->state[1] = 0xefcdab89;
 	ctx->state[2] = 0x98badcfe;
 	ctx->state[3] = 0x10325476;
-
 	ctx->bitlen = 0;
 	ctx->buffer_len = 0;
-
-	return (1);
+	return (0);
 }
 
 
@@ -124,7 +130,7 @@ int md5_update(t_md5_ctx *ctx, const uint8_t *data, const size_t len)
 		}
 	}
 
-	return (1);
+	return (0);
 }
 
 
@@ -160,7 +166,7 @@ int md5_final(uint8_t digest[16], t_md5_ctx *ctx)
 		digest[i * 4 + 3] = (ctx->state[i] >> 24) & 0xff;
 	}
 
-	return (1);
+	return (0);
 }
 
 
@@ -172,7 +178,7 @@ int md5(uint8_t digest[16], const uint8_t *data, const size_t len)
 	md5_update(&ctx, data, len);
 	md5_final(digest, &ctx);
 
-	return (1);
+	return (0);
 }
 
 

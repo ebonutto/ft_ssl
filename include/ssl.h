@@ -5,8 +5,8 @@
  * Includes
  */
 
-#include "hash/hash.h"
-#include "cipher/cipher.h"
+#include "cipher.h"
+#include "hash.h"
 
 
 /*

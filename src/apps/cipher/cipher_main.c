@@ -1,10 +1,10 @@
-// #include "cipher/cipher.h"
+// #include "crypto/cipher.h"
 
 // #include <string.h>  // strcmp(), NULL, memset()
 // #include <stdio.h>   // fprintf, stderr, printf()
 // #include <stdlib.h>  // free(), malloc()
 
-// #include "cipher/rc4.h"
+// #include "crypto/rc4.h"
 // /*
 //  * Macros
 //  */

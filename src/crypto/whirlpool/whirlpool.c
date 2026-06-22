@@ -1,4 +1,4 @@
-#include "hash/whirlpool.h"
+#include "crypto/whirlpool.h"
 
 #include <stdint.h>  // uintX_t
 #include <string.h>  // memset()

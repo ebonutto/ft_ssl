@@ -2,8 +2,8 @@
 
 #include "utils/colors.h"
 
+#include <stdio.h>   // stderr, fprintf()
 #include <string.h>  // strcmp()
-#include <stdio.h>   // fprintf(), stderr
 
 
 /*
@@ -26,28 +26,21 @@ BOLD CYN "\nCipher commands:\n" RST \
 "  rc4\n" \
 "\n"
 
-
-/*
- * Functions
- */
-
 static int do_cmd(int argc, char **argv)
 {
-	int i = 0;
+	int i;
 
+	i = 0;
 	while (g_cmds[i].name) {
 		if (strcmp(g_cmds[i].name, argv[1]) == 0)
 			return (g_cmds[i].func(argc, argv));
-		i += 1;
+		i++;
 	}
-
 	fprintf(stderr, INVALID_COMMAND_FORMAT, argv[0], argv[1]);
 	fprintf(stderr, "\n");
 	fprintf(stderr, HELP_FORMAT, argv[0]);
-
-	return (0);
+	return (2);
 }
-
 
 int main(int argc, char **argv)
 {
@@ -56,8 +49,6 @@ int main(int argc, char **argv)
 	if (argc < 2) {
 		return (1);
 	}
-
 	ret = do_cmd(argc, argv);
-
-	return (!ret);
+	return (ret);
 }

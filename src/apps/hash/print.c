@@ -1,12 +1,7 @@
-#include "hash/hash.h"
+#include "hash.h"
 
-#include <stddef.h>  // size_t
-#include <stdio.h>   // printf()
-
-
-/*
- * Functions
- */
+#include <stddef.h> // size_t
+#include <stdio.h> // printf()
 
 static void print_hex(uint8_t *digest, size_t size)
 {
@@ -14,10 +9,9 @@ static void print_hex(uint8_t *digest, size_t size)
 
 	while (i < size) {
 		printf("%02x", digest[i]);
-		i += 1;
+		i++;
 	}
 }
-
 
 void print_digest(uint8_t *digest, t_hash_ctx *ctx, t_hash_input *input)
 {
@@ -26,22 +20,18 @@ void print_digest(uint8_t *digest, t_hash_ctx *ctx, t_hash_input *input)
 		printf("\n");
 		return ;
 	}
-
 	if (ctx->flags & (1 << FLAG_R)) {
 		print_hex(digest, ctx->algo->digest_size);
-
-		if (input->type == HASH_INPUT_STRING)
+		if (input->type == INPUT_STRING)
 			printf(" \"%s\"", input->data);
-		else  // HASH_INPUT_FILE || HASH_INPUT_STDIN
+		else // INPUT_FILE or INPUT_STDIN
 			printf(" %s", input->data);
-
 		printf("\n");
 		return ;
 	}
-
-	if (input->type == HASH_INPUT_STRING)
+	if (input->type == INPUT_STRING)
 		printf("%s(\"%s\") = ", ctx->algo->name, input->data);
-	else  // HASH_INPUT_FILE || HASH_INPUT_STDIN
+	else  // INPUT_FILE || INPUT_STDIN
 		printf("%s(%s) = ", ctx->algo->name, input->data);
 
 	print_hex(digest, ctx->algo->digest_size);
