@@ -7,8 +7,8 @@ t_bigint *bigint_new(size_t capacity)
 	n = malloc(sizeof(t_bigint));
 	if (!n)
 		return (NULL);
-	n->digits = calloc(capacity, sizeof(uint32_t));
-	if (!n->digits) {
+	n->limbs = calloc(capacity, sizeof(uint32_t));
+	if (!n->limbs) {
 		free(n);
 		return (NULL);
 	}
