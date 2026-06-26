@@ -1,5 +1,7 @@
-#include "bigint.h"
-
+#include "lib/bigint.h"
+#include <stddef.h> // NULL
+#include <stdint.h>
+#include <stdlib.h>
 t_bigint *bigint_new(size_t capacity)
 {
 	t_bigint *n;
@@ -12,7 +14,7 @@ t_bigint *bigint_new(size_t capacity)
 		free(n);
 		return (NULL);
 	}
-	n->length = 0;
+	n->length = 1;
 	n->capacity = capacity;
 	n->sign = 0;
 	return (n);

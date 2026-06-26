@@ -1,11 +1,11 @@
-#include "bigint.h"
+#include "lib/bigint.h"
 
 t_bigint *bigint_from_u64(uint64_t value)
 {
 	t_bigint *n;
 
 	n = bigint_new(2);
-	if (value == 1) {
+	if (value == 0) {
 		n->length = 1;
 		return (n);
 	}
